@@ -1,0 +1,91 @@
+#include <SDL.h>
+#include <SDL_image.h>
+#include <stdio.h>
+#include <iostream>
+using namespace std;
+
+extern void(*updateEvent)();
+extern void(*eventEvent)(SDL_Event);
+extern void(*disposeEvent)();
+extern SDL_Renderer *MainRenderRend;
+
+namespace MainSceneNamespace {
+	SDL_Rect rect, walks[8];
+	SDL_Surface *img = NULL;
+	SDL_Texture *texture = NULL;
+	int characImgPos;
+	int num = 0;
+	int xSpeed = 0;
+	int ySpeed = 0;
+	int isFront = 1;
+	void onInitScene(){
+		img = IMG_Load("resources/1.png");
+		if (img == NULL) {
+			printf("error\n");
+			system("pause");
+			exit(0);
+		}
+		texture = SDL_CreateTextureFromSurface(MainRenderRend, img);
+		rect.x = 0;
+		rect.y = 0;
+		rect.h = img->h;
+		rect.w = img->w / 8;
+		for (int i = 0; i < 8; i++) {
+			walks[i].w = img->w / 8;
+			walks[i].h = img->h;
+			walks[i].x = i*walks[i].w;
+			walks[i].y = 0;
+		}
+		num = 0;
+		characImgPos = 0;
+	}
+
+	void onUpdate(){
+		num++;
+		if(num % 5 == 0)
+			characImgPos = (characImgPos + 1) % 8;
+		if(!xSpeed && !ySpeed)
+			characImgPos = 0;
+		if(isFront)
+			SDL_RenderCopy(MainRenderRend, texture, &walks[characImgPos], &rect);
+		else{
+			SDL_Point point = {0,0};
+			SDL_RenderCopyEx(MainRenderRend, texture, &walks[characImgPos], &rect, 0, &point, SDL_FLIP_HORIZONTAL);
+		}
+		rect.x = rect.x + xSpeed;
+		rect.y = rect.y + ySpeed;
+	}
+
+	void onEvent(SDL_Event event){
+		switch (event.type) {
+		case SDL_KEYDOWN:
+			if(event.key.keysym.sym == SDLK_LEFT)
+				xSpeed = -5;
+			else if(event.key.keysym.sym == SDLK_RIGHT)
+				xSpeed = 5;
+			else if(event.key.keysym.sym == SDLK_UP)
+				ySpeed = -5;
+			else if(event.key.keysym.sym == SDLK_DOWN)
+				ySpeed = 5;
+			break;
+		case SDL_KEYUP:
+			if(event.key.keysym.sym == SDLK_LEFT || event.key.keysym.sym == SDLK_RIGHT)
+				xSpeed = 0;
+			else if(event.key.keysym.sym == SDLK_UP || event.key.keysym.sym == SDLK_DOWN)
+				ySpeed = 0;
+		}
+		if(xSpeed != 0)
+			isFront = (xSpeed > 0);
+	}
+	void onDispose(){
+		;
+	}
+	void MainScene(){
+		if(disposeEvent)
+			disposeEvent();
+		onInitScene();
+		eventEvent = MainSceneNamespace::onEvent;
+		updateEvent = MainSceneNamespace::onUpdate;
+		disposeEvent = MainSceneNamespace::onDispose;
+	}
+}

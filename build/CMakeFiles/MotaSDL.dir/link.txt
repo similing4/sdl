@@ -1,0 +1,3 @@
+D:\CMake\cmake\bin\cmake.exe -E rm -f CMakeFiles\MotaSDL.dir/objects.a
+D:\CMake\mingw64\bin\ar.exe qc CMakeFiles\MotaSDL.dir/objects.a @CMakeFiles\MotaSDL.dir\objects1.rsp
+D:\CMake\mingw64\bin\g++.exe -Wl,--whole-archive CMakeFiles\MotaSDL.dir/objects.a -Wl,--no-whole-archive -o MotaSDL.exe -Wl,--out-implib,libMotaSDL.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\MotaSDL.dir\linklibs.rsp
