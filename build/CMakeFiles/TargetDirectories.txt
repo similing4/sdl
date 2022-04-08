@@ -1,3 +1,0 @@
-D:/web/mota_sdl/build/CMakeFiles/MotaSDL.dir
-D:/web/mota_sdl/build/CMakeFiles/edit_cache.dir
-D:/web/mota_sdl/build/CMakeFiles/rebuild_cache.dir

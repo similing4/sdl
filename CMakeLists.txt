@@ -4,7 +4,7 @@ project (MotaSDL)
 
 include_directories(${PROJECT_NAME} ${PROJECT_SOURCE_DIR}/SDL2-2.0.16/include) # SDL的Include
 include_directories(${PROJECT_NAME} ${PROJECT_SOURCE_DIR}/SDL2_image-2.0.5/include) # SDL-IMAGE的Include
-include_directories(${PROJECT_NAME} ${PROJECT_SOURCE_DIR}/src/include) # 项目的Include
+include_directories(${PROJECT_NAME} ${PROJECT_SOURCE_DIR}/src) # 项目的Include
 set(SDL2_HOME ${PROJECT_SOURCE_DIR}/SDL2-2.0.16)
 set(SDL2_IMAGE_HOME ${PROJECT_SOURCE_DIR}/SDL2_image-2.0.5)
 message(${SDL2_HOME})

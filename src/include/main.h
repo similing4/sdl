@@ -1,9 +1,0 @@
-#pragma once
-#define SDL_MAIN_HANDLED
-#include "BaseScene.h"
-#include "MainScene.h"
-#include <stdio.h>
-#include <SDL.h>
-#include <SDL_image.h>
-#include <conio.h>
-#include <iostream>

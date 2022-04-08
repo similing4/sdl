@@ -1,1 +1,0 @@
- ../SDL2-2.0.16/lib/x64/SDL2.lib ../SDL2_image-2.0.5/lib/x64/SDL2_image.lib -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 

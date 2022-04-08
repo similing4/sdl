@@ -1,4 +1,4 @@
-#include "BaseScene.h"
+#include "Scene/BaseScene.h"
 
 namespace Scene {
 	BaseScene::BaseScene(SDL_Renderer *MainRenderRend, SDL_Window *MainRenderWindow){

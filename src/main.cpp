@@ -1,10 +1,10 @@
 #include "main.h"
 
 using namespace Scene;
-void global_errlog(const wchar_t *str){
+void global_errlog(const char *str){
     FILE* file;
     file = fopen("error.log", "a+");
-    fwrite(str, sizeof(wchar_t), wcslen(str), file);
+    fwrite(str, sizeof(char), strlen(str), file);
     fclose(file);
 }
 
@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
 	bool isExit = false;
  
 	SDL_Init(SDL_INIT_EVERYTHING);
-	MainRenderWindow = SDL_CreateWindow("TEST_SDL", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 544, 416, SDL_WINDOW_SHOWN);
+	MainRenderWindow = SDL_CreateWindow("TEST_SDL", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1024, 768, SDL_WINDOW_SHOWN);
 	surface = SDL_GetWindowSurface(MainRenderWindow);
 	MainRenderRend = SDL_CreateRenderer(MainRenderWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	BaseScene *scene = new MainScene(MainRenderRend, MainRenderWindow);
