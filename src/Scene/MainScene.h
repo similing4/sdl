@@ -10,6 +10,7 @@ namespace Scene {
 	private:
 		Animation *loadingAnimation;
 		Animation *mosterAnimation;
+		bool loadingAnimationFinished;
 	public:
 		MainScene(SDL_Renderer *MainRenderRend, SDL_Window *MainRenderWindow);
 		virtual ~MainScene();

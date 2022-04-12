@@ -11,21 +11,24 @@ namespace Scene {
 		delete this->loadingAnimation;
 	}
 	void MainScene::onInit(){
-		Sprite *loadingSprite = new Sprite(this->MainRenderRend, "resources/images/mota_launch.png", 151, 60, 241, 179, 0);
-		Sprite *mosterSprite = new Sprite(this->MainRenderRend, "resources/charactors/031-Monster01.png", 200, 300, 64, 64);
+		this->loadingAnimationFinished = false;
+		Sprite *loadingSprite = new Sprite(this->MainRenderRend, "resources/images/mota_launch.png", 166, 49, 239, 178, 0);
 		this->loadingAnimation = new Animation(loadingSprite);
-		this->loadingAnimation->speedAlpha = 1.5;
+		this->loadingAnimation->speedAlpha = 3;
+		this->loadingAnimation->setOnAlphaEgtEventListener([this]() -> void {
+			this->loadingAnimation->speedAlpha = 0;
+			this->loadingAnimationFinished = true;
+		}, 255);
+
+		Sprite *mosterSprite = new Sprite(this->MainRenderRend, "resources/charactors/031-Monster01.png", 200, 300, 64, 64);
 		this->mosterAnimation = new Animation(mosterSprite, 6, 0, 4, 4);
 		this->mosterAnimation->speedBlt = 10;
 		this->mosterAnimation->play();
 	}
 	void MainScene::onUpdate(){
 		this->loadingAnimation->onUpdate();
-		this->mosterAnimation->onUpdate();
-		if(this->loadingAnimation->getSprite()->getAlpha() == 255)
-			this->loadingAnimation->speedAlpha = -1.5;
-		if(this->loadingAnimation->getSprite()->getAlpha() == 0)
-			this->loadingAnimation->speedAlpha = 1.5;
+		if(this->loadingAnimationFinished)
+			this->mosterAnimation->onUpdate();
 	}
 	void MainScene::onEvent(SDL_Event event){
 		;

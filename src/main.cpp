@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
 	bool isExit = false;
  
 	SDL_Init(SDL_INIT_EVERYTHING);
-	MainRenderWindow = SDL_CreateWindow("TEST_SDL", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1024, 768, SDL_WINDOW_SHOWN);
+	MainRenderWindow = SDL_CreateWindow("TEST_SDL", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 570, 410, SDL_WINDOW_SHOWN);
 	surface = SDL_GetWindowSurface(MainRenderWindow);
 	MainRenderRend = SDL_CreateRenderer(MainRenderWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	BaseScene *scene = new MainScene(MainRenderRend, MainRenderWindow);

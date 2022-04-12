@@ -24,6 +24,13 @@ namespace Utils {
 		this->bltDirection = playDirection;
 		this->bltPlayColumn = playColumn;
 		this->_isPlaying = false;
+		this->onAlphaEgt = NULL;
+		this->onAlphaElt = NULL;
+		this->onXEgt = NULL;
+		this->onXElt = NULL;
+		this->onYEgt = NULL;
+		this->onYElt = NULL;
+		this->onPlayFinish = NULL;
 	}
 	Animation::~Animation(){
 		;
@@ -48,6 +55,8 @@ namespace Utils {
 		if(this->_isPlaying){
 			this->sprite->setBltW(this->bltRectWidth);
 			this->sprite->setBltH(this->bltRectHeight);
+			if(this->speedBlt < 0)
+				this->speedBlt = - this->speedBlt;
 			if(this->speedBlt != 0){
 				if(this->bltDirection == 4){
 					this->sprite->setBltRect(this->currentFrame * this->bltRectWidth, this->bltPlayColumn * this->bltRectHeight, this->bltRectWidth, this->bltRectHeight);
@@ -81,6 +90,7 @@ namespace Utils {
 			}
 		}
 		this->sprite->onUpdate();
+		this->callEventListener();
 		this->sprite->setX(this->sprite->getX() + this->speedX);
 		this->sprite->setY(this->sprite->getY() + this->speedY);
 		this->sprite->setW(this->sprite->getW() + this->speedW);
@@ -112,4 +122,76 @@ namespace Utils {
 		double speedAlpha; //透明度变化速度，单位为每帧变化的透明度数
 		int speedBlt; //图块变化速度，单位为多少游戏帧执行一次动画帧，平均一帧约为5毫秒
 	};*/
+
+	void Animation::setOnAlphaEgtEventListener(function<void()> event, int dest){
+		this->onAlphaEgt = event;
+		this->alphaEgtEventDest = dest;
+	}
+	void Animation::setOnAlphaEltEventListener(function<void()> event, int dest){
+		this->onAlphaElt = event;
+		this->alphaEltEventDest = dest;
+	}
+	void Animation::setOnXEgtEventListener(function<void()> event, int dest){
+		this->onXEgt = event;
+		this->xEgtEventDest = dest;
+	}
+	void Animation::setOnXEltEventListener(function<void()> event, int dest){
+		this->onXElt = event;
+		this->xEltEventDest = dest;
+	}
+	void Animation::setOnYEgtEventListener(function<void()> event, int dest){
+		this->onYEgt = event;
+		this->yEgtEventDest = dest;
+	}
+	void Animation::setOnYEltEventListener(function<void()> event, int dest){
+		this->onYElt = event;
+		this->yEltEventDest = dest;
+	}
+	void Animation::setOnPlayFinishEventListener(function<void()> event){
+		this->onPlayFinish = event;
+	}
+	void Animation::callEventListener(){
+		if(this->onAlphaEgt != NULL && this->sprite->getAlpha() >= this->alphaEgtEventDest){
+			this->onAlphaEgt();
+			this->onAlphaEgt = NULL;
+		}
+		if(this->onAlphaElt != NULL && this->sprite->getAlpha() <= this->alphaEltEventDest){
+			this->onAlphaElt();
+			this->onAlphaElt = NULL;
+		}
+		if(this->onXEgt != NULL && this->sprite->getX() >= this->xEgtEventDest){
+			this->onXEgt();
+			this->onXEgt = NULL;
+		}
+		if(this->onXElt != NULL && this->sprite->getX() <= this->xEltEventDest){
+			this->onXElt();
+			this->onXElt = NULL;
+		}
+		if(this->onYEgt != NULL && this->sprite->getY() >= this->yEgtEventDest){
+			this->onYEgt();
+			this->onYEgt = NULL;
+		}
+		if(this->onYElt != NULL && this->sprite->getY() <= this->yEltEventDest){
+			this->onYElt();
+			this->onYElt = NULL;
+		}
+		if(this->onPlayFinish != NULL && this->_isPlaying && this->speedBlt > 0){
+			if(this->bltDirection == 4 && this->currentFrame == 0){
+				this->onPlayFinish();
+				this->onPlayFinish = NULL;
+			}
+			if(this->bltDirection == 6 && this->currentFrame == this->colCount - 1){
+				this->onPlayFinish();
+				this->onPlayFinish = NULL;
+			}
+			if(this->bltDirection == 2 && this->currentFrame == 0){
+				this->onPlayFinish();
+				this->onPlayFinish = NULL;
+			}
+			if(this->bltDirection == 8 && this->currentFrame == this->rowCount - 1){
+				this->onPlayFinish();
+				this->onPlayFinish = NULL;
+			}
+		}
+	}
 }
